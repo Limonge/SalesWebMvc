@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using SalesWebMvc.Data;
 using System.Configuration;
+using SalesWebMvc.Services;
 
 namespace SalesWebMvc
 {
@@ -17,6 +18,7 @@ namespace SalesWebMvc
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<SeedingService>();
+            builder.Services.AddScoped<SellerService>();
 
             var app = builder.Build();
 
