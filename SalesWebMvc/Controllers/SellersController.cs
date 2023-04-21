@@ -10,7 +10,7 @@ namespace SalesWebMvc.Controllers
         private readonly SellerService _sellerService;
         private readonly DepartmentService _departmentService;
 
-        public SellersController (SellerService sellerService, DepartmentService departmentService)
+        public SellersController(SellerService sellerService, DepartmentService departmentService)
         {
             _sellerService = sellerService;
             _departmentService = departmentService;
@@ -31,10 +31,34 @@ namespace SalesWebMvc.Controllers
 
         [HttpPost] // indica que a ação é post
         [ValidateAntiForgeryToken] // para evitar ataques CRSF
-        public IActionResult Create (Seller seller)
+        public IActionResult Create(Seller seller)
         {
             _sellerService.Insert(seller);
             return RedirectToAction(nameof(Index)); // redireciona para Index 
+        }
+
+        public IActionResult Delete(int? id) // int? significa que é opcional
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = _sellerService.FindById(id.Value); //id.Value por ser um argumento opcional
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+        }
+
+        [HttpPost] // indica que a ação é post
+        [ValidateAntiForgeryToken] // para evitar ataques CRSF
+        public IActionResult Delete(int id)
+        {
+            _sellerService.Remove(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
